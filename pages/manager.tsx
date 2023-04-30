@@ -2,7 +2,7 @@
 import Header from "../components/Header";
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
-// import ContributeToCampaign from "../components/ContributeToCampaign";
+import ManageTheCampaign from "../components/ManageTheCampaign";
 
 export default function ManageCampaign() {
   return (
@@ -16,7 +16,7 @@ export default function ManageCampaign() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
-      {/* <ContributeToCampaign /> */}
+      <ManageTheCampaign />
       Hello from Manager
     </div>
   );
