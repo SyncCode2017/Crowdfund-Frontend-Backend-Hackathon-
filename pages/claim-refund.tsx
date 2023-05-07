@@ -1,22 +1,21 @@
-// import ManualHeader from "@/components/ManualHeader";
 import Header from "../components/Header";
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
-import ManageTheCampaign from "../components/ManageTheCampaign";
+import ClaimRefund from "../components/ClaimRefund";
 
-export default function ManageCampaign() {
+export default function FundersRefund() {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Manager Page</title>
+        <title>Claiming Refund</title>
         <meta
           name="description"
-          content="Manager functions to manage a campaign"
+          content="Funders of a failed campaign claim refund"
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
-      <ManageTheCampaign />
+      <ClaimRefund />
     </div>
   );
 }

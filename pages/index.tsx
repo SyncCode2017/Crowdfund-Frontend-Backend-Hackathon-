@@ -14,7 +14,6 @@ export default function Home() {
       </Head>
       <Header />
       <ContributeToCampaign />
-      Hello
     </div>
   );
 }
