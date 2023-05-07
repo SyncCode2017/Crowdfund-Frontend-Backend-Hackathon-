@@ -2,21 +2,21 @@
 import Header from "../components/Header";
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
-import ManageTheCampaign from "../components/ManageTheCampaign";
+import ViewAccountNFTs from "../components/ViewAccountNFTs";
 
-export default function ManageCampaign() {
+export default function NFTDisplay() {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Manager Page</title>
+        <title>View NFT</title>
         <meta
           name="description"
-          content="Manager functions to manage a campaign"
+          content="Loading NFT from connected accounts"
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
-      <ManageTheCampaign />
+      <ViewAccountNFTs />
     </div>
   );
 }

@@ -2,8 +2,10 @@ import { fundABizAbi, mockErc20Abi, contractAddresses } from "../constants";
 import { useEffect, useState } from "react";
 import { BigNumber, ethers, ContractTransaction } from "ethers";
 import type { NextPage } from "next";
+import Image from "next/image";
 import { Form, Button, useNotification } from "web3uikit";
 import { useWeb3Contract, useMoralis } from "react-moralis";
+import Link from "next/link";
 
 interface contractAddressesInterface {
   [key: string]: { [key: string]: string[] };
@@ -25,7 +27,7 @@ export default function ContributeToCampaign() {
   const { runContractFunction } = useWeb3Contract();
   const dispatch = useNotification();
 
-  async function getAllowedTokenSymbol(): Promise<void> {
+  async function getAllowedTokenSymbol(): Promise<string | null> {
     const getErc20SymbolOptions = {
       abi: mockErc20Abi,
       contractAddress: allowedErc20TokenAddress,
@@ -36,12 +38,14 @@ export default function ContributeToCampaign() {
       params: getErc20SymbolOptions,
       onError: (error) => console.log(error),
     })) as string;
+    console.log("token symbol", returnedSymbol);
     if (returnedSymbol) {
-      setAllowedErc20Symbol(returnedSymbol);
+      return returnedSymbol;
     }
+    return null;
   }
 
-  async function getCampaignState(): Promise<void> {
+  async function getCampaignState(): Promise<string | null> {
     const getCampaignStateOptions = {
       abi: fundABizAbi,
       contractAddress: fundABizAddress!,
@@ -54,11 +58,12 @@ export default function ContributeToCampaign() {
     })) as string;
     console.log("Verdict is", returnedState);
     if (returnedState) {
-      setCampaignVerdict(returnedState);
+      return returnedState;
     }
+    return null;
   }
 
-  async function getAllowedTokenAddress(): Promise<void> {
+  async function getAllowedTokenAddress(): Promise<string | null> {
     const getErc20TokenOptions = {
       abi: fundABizAbi,
       contractAddress: fundABizAddress!,
@@ -70,8 +75,9 @@ export default function ContributeToCampaign() {
       onError: (error) => console.log(error),
     })) as string;
     if (returnedAddress) {
-      setAllowedErc20TokenAddress(returnedAddress);
+      return returnedAddress;
     }
+    return null;
   }
 
   async function getAmountToContribute(
@@ -113,13 +119,14 @@ export default function ContributeToCampaign() {
 
     await runContractFunction({
       params: options,
-      onSuccess: () => handleContributeSuccess(),
+      onSuccess: (tx) => handleContributeSuccess(tx),
       onError: (error) => console.log(error),
     });
   }
 
-  const handleContributeSuccess = async () => {
-    // await tx.wait();
+  const handleContributeSuccess = async (tx: unknown) => {
+    // @ts-ignore
+    await tx.wait(1);
     dispatch({
       type: "success",
       message: "Contribution received successfully",
@@ -127,12 +134,15 @@ export default function ContributeToCampaign() {
       position: "topR",
     });
   };
+  const updateUI = async () => {
+    setCampaignVerdict((await getCampaignState())!);
+    setAllowedErc20TokenAddress((await getAllowedTokenAddress())!);
+    setAllowedErc20Symbol((await getAllowedTokenSymbol())!);
+  };
 
   useEffect(() => {
     if (isWeb3Enabled) {
-      getCampaignState();
-      getAllowedTokenAddress();
-      getAllowedTokenSymbol();
+      updateUI();
     }
   }, [account, isWeb3Enabled, chainId]);
 
@@ -140,9 +150,6 @@ export default function ContributeToCampaign() {
     console.log("Approving...");
     const tier = data.data[0].inputResult;
     const quantity = data.data[1].inputResult;
-
-    // const allowedErc20Address = await getAllowedTokenAddress();
-    console.log(allowedErc20TokenAddress);
 
     const amountErc20InEth = await getAmountToContribute(tier, quantity);
     console.log(amountErc20InEth);
@@ -170,53 +177,104 @@ export default function ContributeToCampaign() {
   }
 
   return (
-    <div>
-      {fundABizAddress ? (
-        campaignVerdict == "2" ? (
-          <div>
-            <Form
-              onSubmit={approveAndContribute}
-              buttonConfig={{
-                isLoading: false,
-                type: "submit",
-                theme: "primary",
-                text: "Contribute to Campaign",
-              }}
-              data={[
-                // {
-                //   inputWidth: "50%",
-                //   name: "NFT Address",
-                //   type: "text",
-                //   value: "",
-                //   key: "nftAddress",
-                // },
-                {
-                  name: "Funding Tier",
-                  type: "number",
-                  value: "",
-                  key: "tier",
-                },
-                {
-                  name: "Quantity",
-                  type: "number",
-                  value: "",
-                  key: "quantity",
-                },
-              ]}
-              title="Contribute to Business-A Campaign"
-              id="Main Form"
-            />
-            <p tw="text-[40px]">
-              Note: please ensure you have sufficient {allowedErc20Symbol} token
-              with address {allowedErc20TokenAddress} in your wallet.
-            </p>
-          </div>
+    <div className="flex justify-between flex-row my-5">
+      <div>
+        {account ? (
+          fundABizAddress ? (
+            Number(campaignVerdict) > 1 ? (
+              <div>
+                <Form
+                  onSubmit={approveAndContribute}
+                  customFooter={
+                    <Button
+                      type="submit"
+                      text="Contribute to Campaign"
+                      color="blue"
+                      bg-iconColor="blue"
+                    />
+                  }
+                  data={[
+                    {
+                      name: "Funding Tier",
+                      type: "number",
+                      value: "",
+                      key: "tier",
+                    },
+                    {
+                      name: "Quantity",
+                      type: "number",
+                      value: "",
+                      key: "quantity",
+                    },
+                  ]}
+                  title="Contribute to Business-A Campaign"
+                  id="Main Form"
+                />
+                <p className="pt-10">
+                  Note: please ensure you have sufficient {allowedErc20Symbol}{" "}
+                  token with address {allowedErc20TokenAddress} in your wallet.
+                </p>
+              </div>
+            ) : Number(campaignVerdict) == 0 ? (
+              <div
+                className="bg-orange-100 border-l-4 border-green-500 text-green-700 p-4"
+                role="alert"
+              >
+                <p className="font-bold">
+                  Business-A funding round was successfully completed!
+                </p>
+                <p>
+                  Thank you for participating. Please claim your Nft perks{" "}
+                  <Link
+                    href="/claim-reward"
+                    className="text-blue-700 underline"
+                  >
+                    here.
+                  </Link>
+                </p>
+              </div>
+            ) : Number(campaignVerdict) == 1 ? (
+              <div
+                className="bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-4"
+                role="alert"
+              >
+                <p className="font-bold">Business-A Funding Round Failed!</p>
+                <p>
+                  Thank you for participating. Please claim your refund{" "}
+                  <Link href="/claim-refund" className="text-red-700 underline">
+                    here.
+                  </Link>
+                </p>
+              </div>
+            ) : (
+              <p></p>
+            )
+          ) : (
+            <div
+              className="bg-orange-100 border-l-4 border-blue-500 text-blue-700 p-8"
+              role="alert"
+            >
+              <p className="font-bold text-3xl pb-5">Unsupported Network!</p>
+              <p>Please switch the network in your wallet!</p>
+            </div>
+          )
         ) : (
-          <p>Campaign has ended.</p>
-        )
-      ) : (
-        <p>Unsupported network. Please switch the network in your wallet!</p>
-      )}
+          <div className="bg-orange-100 border-l-4 border-blue-500 text-blue-600 p-20">
+            <h1 className="font-bold text-3xl pb-5">
+              Welcome to Decentralized Crowd-Funding!
+            </h1>
+            <h2 className="text-2xl">Please connect your wallet!</h2>
+          </div>
+        )}
+      </div>
+      <div className="items-right">
+        <Image
+          src="/crowdFundImageP.png"
+          height="800"
+          width="800"
+          alt="crowdFundImageP"
+        />
+      </div>
     </div>
   );
 }

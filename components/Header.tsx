@@ -16,6 +16,9 @@ export default function Header() {
         <Link href="/business-client" className="mr-4 p-6">
           Clients Page
         </Link>
+         <Link href="/view-nft" className="mr-4 p-6">
+          View NFT
+        </Link>
         <ConnectButton moralisAuth={false} />
       </div>
     </nav>

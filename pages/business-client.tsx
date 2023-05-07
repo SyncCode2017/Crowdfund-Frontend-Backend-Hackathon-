@@ -2,7 +2,7 @@
 import Header from "../components/Header";
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
-// import ContributeToCampaign from "../components/ContributeToCampaign";
+import BusinessWithdrawal from "@/components/BusinessWithdrawal";
 
 export default function BusinessClient() {
   return (
@@ -16,8 +16,7 @@ export default function BusinessClient() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
-      {/* <ContributeToCampaign /> */}
-      Hello from Business Client
+      <BusinessWithdrawal />
     </div>
   );
 }

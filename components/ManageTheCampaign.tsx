@@ -4,12 +4,6 @@ import { BigNumber, ethers, ContractTransaction } from "ethers";
 import type { NextPage } from "next";
 import { Form, Input, Button, useNotification } from "web3uikit";
 import { useWeb3Contract, useMoralis } from "react-moralis";
-// import {
-//   handleSetAllowedTokenSuccess,
-//   handleSetTreasuryAddressSuccess,
-//   handleCloseCampaignSuccess,
-//   // handleAddNewManagerSuccess,
-// } from "@/utils/helpful-functions";
 
 interface contractAddressesInterface {
   [key: string]: { [key: string]: string[] };
@@ -42,8 +36,9 @@ export default function ManageTheCampaign() {
 
   const dispatch = useNotification();
 
-  const handleApproveMilestoneSuccess = async () => {
-    // await tx.wait();
+  const handleApproveMilestoneSuccess = async (tx: unknown) => {
+    // @ts-ignore
+    await tx.wait(1);
     dispatch({
       type: "success",
       message: "Milestone approved successfully",
@@ -53,8 +48,9 @@ export default function ManageTheCampaign() {
     setMilestoneId("");
   };
 
-  const handleUpdateAllowedTokenSuccess = async () => {
-    // await tx.wait();
+  const handleUpdateAllowedTokenSuccess = async (tx: unknown) => {
+    // @ts-ignore
+    await tx.wait(1);
     dispatch({
       type: "success",
       message: "Allowed token changed successfully",
@@ -64,8 +60,9 @@ export default function ManageTheCampaign() {
     setAllowedErc20TokenAddress("");
   };
 
-  const handleUpdateBusinessAddressSuccess = async () => {
-    // await tx.wait();
+  const handleUpdateBusinessAddressSuccess = async (tx: unknown) => {
+    // @ts-ignore
+    await tx.wait(1);
     dispatch({
       type: "success",
       message: "Business address changed successfully",
@@ -75,8 +72,9 @@ export default function ManageTheCampaign() {
     setNewBusinessAddress("");
   };
 
-  const handleUpdateCrowdditFeeSuccess = async () => {
-    // await tx.wait();
+  const handleUpdateCrowdditFeeSuccess = async (tx: unknown) => {
+    // @ts-ignore
+    await tx.wait(1);
     dispatch({
       type: "success",
       message: "Crowddit fee changed successfully",
@@ -86,7 +84,9 @@ export default function ManageTheCampaign() {
     setNewFeeNumerator("");
   };
 
-  const handleUpdateTreasuryAddressSuccess = async () => {
+  const handleUpdateTreasuryAddressSuccess = async (tx: unknown) => {
+    // @ts-ignore
+    await tx.wait(1);
     dispatch({
       type: "success",
       message: "Treasury Address changed successfully",
@@ -96,8 +96,9 @@ export default function ManageTheCampaign() {
     setNewTreasuryAddress("");
   };
 
-  const handleCloseCampaignSuccess = async () => {
-    // await tx.wait();
+  const handleCloseCampaignSuccess = async (tx: unknown) => {
+    // @ts-ignore
+    await tx.wait(1);
     dispatch({
       type: "success",
       message: "Campaign closed successfully",
@@ -106,8 +107,9 @@ export default function ManageTheCampaign() {
     });
   };
 
-  const handleAddNewManagerSuccess = async () => {
-    // await tx.wait();
+  const handleAddNewManagerSuccess = async (tx: unknown) => {
+    // @ts-ignore
+    await tx.wait(1);
     dispatch({
       type: "success",
       message: "New manager added successfully",
@@ -116,16 +118,6 @@ export default function ManageTheCampaign() {
     });
     setNewManager("");
   };
-
-  // const { runContractFunction: getTierPerkQuantityBoughtInContract } =
-  // useWeb3Contract({
-  //   abi: fundABizAbi,
-  //   contractAddress: fundABizAddress!,
-  //   functionName: "getQuantityOfTierBought",
-  //   params: {
-  //     _tier: tierPerk,
-  //   },
-  // });
 
   const { runContractFunction: approveMilestoneInContract } = useWeb3Contract({
     abi: fundABizAbi,
@@ -195,7 +187,7 @@ export default function ManageTheCampaign() {
 
   const addNewManager = async (): Promise<void> => {
     await addNewManagerInContract({
-      onSuccess: () => handleAddNewManagerSuccess(),
+      onSuccess: () => (tx: unknown) => handleAddNewManagerSuccess(tx),
       onError: (error) => console.log(error),
     });
   };
@@ -230,7 +222,6 @@ export default function ManageTheCampaign() {
       params: pauserHexOptions,
       onError: (error) => console.log(error),
     })) as string;
-    // console.log("managerHex", managerHex);
     if (pauserHex) {
       return pauserHex;
     }
@@ -255,11 +246,6 @@ export default function ManageTheCampaign() {
     );
     console.log("boughtQtty", boughtQtty);
     boughtQtty ? setTierPerkQuantityBought(boughtQtty) : null;
-    // console.log("managerHex", managerHex);
-    // if (quantityBought) {
-    //   return quantityBought;
-    // }
-    // return null;
   };
 
   const isACampaignManager = async (): Promise<string | null> => {
@@ -290,14 +276,14 @@ export default function ManageTheCampaign() {
 
   const updateTokenAddress = async () => {
     await updateErc20TokenInContract({
-      onSuccess: () => handleUpdateAllowedTokenSuccess(),
+      onSuccess: (tx) => handleUpdateAllowedTokenSuccess(tx),
       onError: (error) => console.log(error),
     });
   };
 
   const closeCampaign = async () => {
     await closeCampaignInContract({
-      onSuccess: () => handleCloseCampaignSuccess(),
+      onSuccess: (tx) => handleCloseCampaignSuccess(tx),
       onError: (error) => console.log(error),
     });
   };
@@ -319,28 +305,28 @@ export default function ManageTheCampaign() {
 
   const updateTreasuryAddress = async () => {
     await updateTreasuryAddressInContract({
-      onSuccess: () => handleUpdateTreasuryAddressSuccess(),
+      onSuccess: (tx) => handleUpdateTreasuryAddressSuccess(tx),
       onError: (error) => console.log(error),
     });
   };
 
   const updateBusinessAddress = async () => {
     await updateBusinessAddressInContract({
-      onSuccess: () => handleUpdateBusinessAddressSuccess(),
+      onSuccess: (tx) => handleUpdateBusinessAddressSuccess(tx),
       onError: (error) => console.log(error),
     });
   };
 
   const updateCrowdditFeeNum = async () => {
     await updateCrowdditFeeInContract({
-      onSuccess: () => handleUpdateCrowdditFeeSuccess(),
+      onSuccess: (tx) => handleUpdateCrowdditFeeSuccess(tx),
       onError: (error) => console.log(error),
     });
   };
 
   const approveMilestone = async () => {
     await approveMilestoneInContract({
-      onSuccess: () => handleApproveMilestoneSuccess(),
+      onSuccess: (tx) => handleApproveMilestoneSuccess(tx),
       onError: (error) => console.log(error),
     });
   };
@@ -537,7 +523,7 @@ export default function ManageTheCampaign() {
                 <div className="mr-4">
                   <div>
                     <Input
-                      label="Get Tier Perk Quantity Bought"
+                      label="Enter tier to get quantity bought"
                       name="Tier Perk Quantity Bought"
                       onChange={(event) => {
                         setTierPerk(event.target.value);
@@ -568,7 +554,7 @@ export default function ManageTheCampaign() {
                       <Button
                         id="get-tier-quantity-bought"
                         onClick={getTierPerkQuantityBought}
-                        text="Get Quantity of Tier Bought"
+                        text="Get Quantity Bought"
                         theme="colored"
                         color="blue"
                         type="button"
@@ -613,9 +599,13 @@ export default function ManageTheCampaign() {
           /> */}
             </div>
           ) : (
-            <p>
-              Unsupported network. Please switch the network in your wallet!
-            </p>
+            <div
+              className="bg-orange-100 border-l-4 border-blue-500 text-blue-700 p-4"
+              role="alert"
+            >
+              <p className="font-bold">Unsupported Network!</p>
+              <p>Please switch the network in your wallet!</p>
+            </div>
           )}
         </div>
       ) : (

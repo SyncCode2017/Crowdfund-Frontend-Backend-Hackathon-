@@ -1,22 +1,21 @@
-// import ManualHeader from "@/components/ManualHeader";
 import Header from "../components/Header";
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
-import ManageTheCampaign from "../components/ManageTheCampaign";
+import ClaimReward from "@/components/ClaimReward";
 
-export default function ManageCampaign() {
+export default function FundersReward() {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Manager Page</title>
+        <title>Claiming Nft</title>
         <meta
           name="description"
-          content="Manager functions to manage a campaign"
+          content="Claiming NFT perks rewards by funders"
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
-      <ManageTheCampaign />
+      <ClaimReward />
     </div>
   );
 }
