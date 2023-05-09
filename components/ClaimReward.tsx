@@ -43,8 +43,8 @@ export default function ClaimReward() {
     await tx.wait(1);
     dispatch({
       type: "success",
-      message: "Funds withdrawn successfully",
-      title: "Funds Withdrawal",
+      message: "Nft perks claimed successfully",
+      title: "NFT Perks Claiming",
       position: "topR",
     });
     setTierPerkToClaim("");

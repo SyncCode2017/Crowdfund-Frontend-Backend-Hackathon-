@@ -44,26 +44,25 @@ export default function ViewAccountNFTs() {
     chainId in addresses ? addresses[chainId]["FundABusiness"][0] : null;
 
   const nftPerk1 =
-    chainId in nftContracts
-      ? nftContracts[chainId]["NftPerks1"][0]
-      : "0x9194d1f7f6930d6381b171656fa03c03b964fb22";
+    chainId in nftContracts ? nftContracts[chainId]["NftPerks1"][0] : null;
   const nftPerk2 =
-    chainId in nftContracts
-      ? nftContracts[chainId]["NftPerks2"][0]
-      : "0x9691B52B783a821ceCfB6E21752bF715C577F1cA";
+    chainId in nftContracts ? nftContracts[chainId]["NftPerks2"][0] : null;
   const nftPerk3 =
-    chainId in nftContracts
-      ? nftContracts[chainId]["NftPerks3"][0]
-      : "0xC1543E787f7396B8F8E5f8C07DccEF3FcF696A19";
+    chainId in nftContracts ? nftContracts[chainId]["NftPerks3"][0] : null;
 
+  const oldNft1 = "0x9194d1f7f6930d6381b171656fa03c03b964fb22";
+  const oldNft2 = "0x9691B52B783a821ceCfB6E21752bF715C577F1cA";
+  const oldNft3 = "0xC1543E787f7396B8F8E5f8C07DccEF3FcF696A19";
   const moatNftAddresses = [
-    nftPerk1.toLowerCase(),
-    nftPerk2.toLowerCase(),
-    nftPerk3.toLowerCase(),
+    nftPerk1!.toLowerCase(),
+    nftPerk2!.toLowerCase(),
+    nftPerk3!.toLowerCase(),
+    oldNft1.toLowerCase(),
+    oldNft2.toLowerCase(),
+    oldNft3.toLowerCase(),
   ];
 
   async function updateUI() {
-    console.log("moatNftAddresses", moatNftAddresses);
     let accountAllNftsApiRes: APIResponseDataInterface =
       (await getAllAccountNfts())!;
     //@ts-ignore
