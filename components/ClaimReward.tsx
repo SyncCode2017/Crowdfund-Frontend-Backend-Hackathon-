@@ -98,6 +98,7 @@ export default function ClaimReward() {
     if (Boolean(areNftsSet) === true) {
       return areNftsSet;
     }
+
     return null;
   };
 

@@ -1,17 +1,10 @@
-import {
-  fundABizAbi,
-  mockErc20Abi,
-  contractAddresses,
-  nftContractAddresses,
-} from "../constants";
+import { contractAddresses, nftContractAddresses } from "../constants";
 import { useEffect, useState } from "react";
-import { BigNumber, ethers, ContractTransaction } from "ethers";
 import type { NextPage } from "next";
 import { Form, Input, Button, useNotification, Card } from "web3uikit";
 import { useWeb3Contract, useMoralis } from "react-moralis";
 import Image from "next/image";
 import axios from "axios";
-import { TIERS } from "../constants/index";
 
 interface contractAddressesInterface {
   [key: string]: { [key: string]: string[] };
@@ -36,31 +29,51 @@ export default function ViewAccountNFTs() {
   const chainId = chainIdHex ? parseInt(chainIdHex).toString() : "31337";
 
   // @ts-ignore
-  const { runContractFunction } = useWeb3Contract();
+  // const { runContractFunction } = useWeb3Contract();
   const [accountNfts, setAccountNfts] = useState([]);
 
   console.log("chainId", chainId);
   const fundABizAddress =
     chainId in addresses ? addresses[chainId]["FundABusiness"][0] : null;
 
-  const nftPerk1 =
-    chainId in nftContracts ? nftContracts[chainId]["NftPerks1"][0] : null;
-  const nftPerk2 =
-    chainId in nftContracts ? nftContracts[chainId]["NftPerks2"][0] : null;
-  const nftPerk3 =
-    chainId in nftContracts ? nftContracts[chainId]["NftPerks3"][0] : null;
+  const getMoatNftAddresses = (): string[] | null => {
+    let nftPerk1 =
+      chainId in nftContracts ? nftContracts[chainId]["NftPerks1"] : null;
+    let nftPerk2 =
+      chainId in nftContracts ? nftContracts[chainId]["NftPerks2"] : null;
+    let nftPerk3 =
+      chainId in nftContracts ? nftContracts[chainId]["NftPerks3"] : null;
 
-  const oldNft1 = "0x9194d1f7f6930d6381b171656fa03c03b964fb22";
-  const oldNft2 = "0x9691B52B783a821ceCfB6E21752bF715C577F1cA";
-  const oldNft3 = "0xC1543E787f7396B8F8E5f8C07DccEF3FcF696A19";
-  const moatNftAddresses = [
-    nftPerk1!.toLowerCase(),
-    nftPerk2!.toLowerCase(),
-    nftPerk3!.toLowerCase(),
-    oldNft1.toLowerCase(),
-    oldNft2.toLowerCase(),
-    oldNft3.toLowerCase(),
-  ];
+    if (nftPerk1 === null && nftPerk2 === null && nftPerk3 === null) {
+      return null;
+    } else {
+      nftPerk1 =
+        nftPerk1!.length > 0
+          ? nftPerk1!.map((x) => {
+              return x.toLowerCase();
+            })
+          : null;
+      nftPerk2 =
+        nftPerk2!.length > 0
+          ? nftPerk2!.map((x) => {
+              return x.toLowerCase();
+            })
+          : null;
+      nftPerk3 =
+        nftPerk3!.length > 0
+          ? nftPerk3!.map((x) => {
+              return x.toLowerCase();
+            })
+          : null;
+
+      const moatNftAddrs = [...nftPerk1!, ...nftPerk2!, ...nftPerk3!];
+      return moatNftAddrs;
+    }
+  };
+
+  const moatNftAddresses = getMoatNftAddresses()!;
+
+  console.log("moatNftAddresses", moatNftAddresses);
 
   async function updateUI() {
     let accountAllNftsApiRes: APIResponseDataInterface =
@@ -78,6 +91,7 @@ export default function ViewAccountNFTs() {
         }
       }
     });
+
     const accountCrowdditNfts = accountCrowdditNftsGen.filter(function (
       nftData: OwnedNftsDataInterface | undefined
     ) {
@@ -103,9 +117,13 @@ export default function ViewAccountNFTs() {
       console.log("url", url);
       // Make the request
       try {
-        const response = await axios.get(url);
-        console.log(response["data"]);
-        return response["data"];
+        if (chainId === "80001") {
+          const response = await axios.get(url);
+          console.log(response["data"]);
+          return response["data"];
+        } else {
+          return null;
+        }
       } catch (error) {
         console.log("error", error);
       }
@@ -116,7 +134,7 @@ export default function ViewAccountNFTs() {
     <div>
       <div>
         {isWeb3Enabled ? (
-          accountNfts ? (
+          accountNfts.length > 0 ? (
             <div>
               <div className="text-2xl font-bold items-center p-5">
                 <p>Moat NFTs in your wallet ...</p>
