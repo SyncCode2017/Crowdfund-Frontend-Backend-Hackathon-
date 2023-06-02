@@ -1,45 +1,44 @@
-// import { Form, Input, Button, useNotification } from "web3uikit";
+import axios from "axios";
 
-// export const handleSetAllowedTokenSuccess = async () => {
-//   const dispatch = useNotification();
-//   // await tx.wait();
-//   dispatch({
-//     type: "success",
-//     message: "Allowed token changed successfully",
-//     title: "Allowed token changed",
-//     position: "topR",
-//   });
-// };
+type ResponseType = {
+  statusCode: number;
+  headers: {
+    key: string;
+  };
+  data: string;
+};
 
-// export const handleSetTreasuryAddressSuccess = async () => {
-//   const dispatch = useNotification();
-//   // await tx.wait();
-//   dispatch({
-//     type: "success",
-//     message: "Treasury Address changed successfully",
-//     title: "Treasury address changed",
-//     position: "topR",
-//   });
-// };
+export async function generateRandomString(
+  account: string,
+  nftPerkAddress: string,
+  tokenId: number
+): Promise<string | null> {
+  const request = {
+    account: account,
+    nftPerkAddress: nftPerkAddress,
+    tokenId: tokenId,
+  };
 
-// export const handleCloseCampaignSuccess = async () => {
-//   const dispatch = useNotification();
-//   // await tx.wait();
-//   dispatch({
-//     type: "success",
-//     message: "Campaign closed successfully",
-//     title: "Early Campaign Closure",
-//     position: "topR",
-//   });
-// };
+  /** The APIs here are developed with AWS Lambda, RDS and API Gateway.
+   * Please see the ./backend-aws/proveddit-apis folder for the code
+   * for the backend.
+   */
 
-// // export const handleAddNewManagerSuccess = async () => {
-// //   const dispatch = useNotification();
-// //   // await tx.wait();
-// //   dispatch({
-// //     type: "success",
-// //     message: "New manager added successfully",
-// //     title: "New Manager Added",
-// //     position: "topR",
-// //   });
-// // };
+  // API to validate OTP
+  // https://0jaqaxb9z2.execute-api.eu-west-2.amazonaws.com/dev/proveddit/validate-otp
+  // to be called by businesses.Returns "valid", "invalid" or "used or expired" depending
+  // on the status of the random string posted with the request.
+
+  try {
+    // generate random string
+    const response: ResponseType = await axios.post(
+      "https://0jaqaxb9z2.execute-api.eu-west-2.amazonaws.com/dev/proveddit/generate-token",
+      request
+    );
+    // console.log("response is", response.data);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+  return null;
+}

@@ -1,0 +1,33 @@
+service: moat-proveddit-apis
+
+provider:
+  name: aws
+  runtime: nodejs16.x
+  # lambdaHashingVersion: 20201221
+  region: eu-west-2
+
+package:
+  individually: true
+
+# Serverless functions
+functions:
+  tokens-generator-lambda:
+    handler: src/handlers.generateTokens
+    events:
+      - http:
+          path: proveddit/generate-token
+          method: post
+          cors: true
+  validate-otp-lambda:
+    handler: src/handlers.validateRandomString
+    events:
+      - http:
+          path: proveddit/validate-otp
+          method: post
+          cors: true
+
+useDotenv: true
+plugins:
+  - serverless-plugin-typescript
+  - serverless-dotenv-plugin
+  - serverless-offline
