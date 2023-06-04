@@ -1,3 +1,63 @@
+# Project Moat Overview
+
+Project moat is a decentralised crowd-funding platform that allow businesses
+to raise funds through crowd-funding. Contributors would be rewarded once the
+with nft of diffrent perks based on how much the contributor contributed during the
+campaign period or funding round once the target amount is met.
+
+Contributors would be able to contribute through fiat (banking system) and through
+cryptocurrency during the funding round. The nft perks given as the reward to the
+contributors will guarantee the contributor a special discount and vip access with
+the business. The contributor would also have the option of selling the nft perk on
+the secondary market to recover his/her investment anytime. The new buyer have
+to patronise the business to claim the discounts and vip access attached to the nft
+perks. This way, the business customer base keeps growing, the business itself keeps
+growing and the values of the nft perks also increase in the secondary market.
+
+However, if the target amount is not met during the funding round and the campaign
+fail all the contributors or funders will be able to claim their refund or it
+may be refunded to their wallets.
+
+### Benefits of Project Moat
+
+1. Unlike the traditional crowd-funding space, the businesses do not have to promise
+   unrealistic return on investment to the contributors. The contributors are not shareholders
+   in the business. This gives sufficient time to the startup (business) to grow and expand
+   carefully.
+
+2. The contributors also become customer to the business as they can only use their NFT perks
+   to claim discounts and vip access with the business.
+
+3. Anytime these NFT perks are sold in the secondary markets, the business gets royalties and gain
+   a new customer. Royalties from the secondary markets gives the business additional cash flow.
+
+4. Contributors are able to see how and when funds-raised are released to the business according
+   to the milestones define in the contract as the approval and release of fund will be done on chain.
+   This guarantees transparency.
+
+5. Since fiat contributions will be accepted, many more new users will be brought to the web3 space.
+
+Project Moat will generate cash flow by taking fractions of the fund raised and the NFT royalties
+in the secondary market. Project Moat team plan to develop NFT marketplace as secondary market for
+the NFTs and hopes to eventually become a DAO. As a DAO, the project will be community-owned and the team
+can continue to effectively screen every business that comes to raise fund on the platform.
+
+## Implementation
+
+The Figure 1 below shows the overview implementation of the project. Two smart contracts were written; the
+FundABusiness.sol and the NFTperks.sol. The FundABusiness.sol contract manages the crowd-funding campaign.
+It has the minter role of the NFTperks.sol contract and it would be able to mint NFTs to funders or
+contributors once the campaign is declared succesful and the NFT contracts are set.
+![`Figure 1`](moat-overview.jpg)
+
+The Figure 2 below describes all the callable functions in the FundABusiness.sol. All the functions have
+a period of time when they are callable. For example, the contribute function is only available when the campaign period is open while claimRefund function can only be called when the campaign has failed.
+The Project Moat manager would be able to use the contributeOnBehalfOf function to deposit fiat
+contributions o
+![alt text](fund-a-business-functions.jpg)
+
+![alt text](moat-proveddit.jpg)
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
