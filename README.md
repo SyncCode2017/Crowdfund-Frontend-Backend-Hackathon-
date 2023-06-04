@@ -48,15 +48,54 @@ The Figure 1 below shows the overview implementation of the project. Two smart c
 FundABusiness.sol and the NFTperks.sol. The FundABusiness.sol contract manages the crowd-funding campaign.
 It has the minter role of the NFTperks.sol contract and it would be able to mint NFTs to funders or
 contributors once the campaign is declared succesful and the NFT contracts are set.
-![`Figure 1`](moat-overview.jpg)
+
+![alt text](moat-overview.jpg)
+
+```
+Figure 1: Overview of the implementation
+```
 
 The Figure 2 below describes all the callable functions in the FundABusiness.sol. All the functions have
 a period of time when they are callable. For example, the contribute function is only available when the campaign period is open while claimRefund function can only be called when the campaign has failed.
 The Project Moat manager would be able to use the contributeOnBehalfOf function to deposit fiat
-contributions o
+contributions on behalf of the fiat contributors.
+
 ![alt text](fund-a-business-functions.jpg)
 
+```
+Figure 2: FundABusiness functions
+```
+
 ![alt text](moat-proveddit.jpg)
+
+```
+Figure 3: overview of the backend APIs for user to generate random string and for the business
+to validate the generated random string.
+```
+
+The figure above shows the overview of the architecture of the two APIs.
+
+### View your NFT Page on the Frontend
+
+On the View your NFT page on the frontend, the contributors will be able to generate a token
+or random string with their NFT perks. With this random string, a contributor (user) can go to the
+business and claim their perks. The business just need to call the validate-otp API.
+
+Here is how it works; once the user connect his/her wallet to the view your NFT page, the Alchemy
+NFT API is called to load and display all the NFT perks in the user wallet. With any of the NFT,
+the user can generate the random string by clicking the NFT. In the background, the clicking
+action calls the generate-token API and it respond with the random string. The NFT data and the
+corrensponding random string are stored in the AWS RDS database for the eventual validation API
+call.
+
+It is expected that the user will go to the business with this random string to claim the NFT perks
+benefits. The business will make API call through the validate-otp API and an appropriate reponse
+will be received from the backend. The API call also update the database with the random string
+status to "used".
+
+```
+Serverless Framework template was used to build this backend on AWS.
+```
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 

@@ -2,59 +2,26 @@
 
 ![alt text](moat-proveddit.jpg)
 
+The figure above shows the overview of the architecture of the two APIs.
+
 ### View your NFT Page on the Frontend
 
-### Generate-token API
+On the View your NFT page on the frontend, the contributors will be able to generate a token
+or random string with their NFT perks. With this random string, a contributor (user) can go to the
+business and claim their perks. The business just need to call the validate-otp API.
 
-### Validate-otp API
+Here is how it works; once the user connect his/her wallet to the view your NFT page, the Alchemy
+NFT API is called to load and display all the NFT perks in the user wallet. With any of the NFT,
+the user can generate the random string by clicking the NFT. In the background, the clicking
+action calls the generate-token API and it respond with the random string. The NFT data and the
+corrensponding random string are stored in the AWS RDS database for the eventual validation API
+call.
 
-Serverless Framework template for zero-config TypeScript support.
-
-## Features
-
-Thanks to [`serverless-typescript`](https://github.com/prisma-labs/serverless-plugin-typescript) plugin:
-
-- Zero-config: Works out of the box without the need to install any other compiler or plugins
-- Supports ES2015 syntax + features (`export`, `import`, `async`, `await`, `Promise`, ...)
-- Supports `sls package`, `sls deploy` and `sls deploy function`
-- Supports `sls invoke local` + `--watch` mode
-- Integrates nicely with [`serverless-offline`](https://github.com/dherault/serverless-offline)
-
-## Prerequisites
-
-- [`serverless-framework`](https://github.com/serverless/serverless)
-- [`node.js`](https://nodejs.org)
-
-## Usage
-
-To create new serverless AWS TypeScript project using this template run:
-
-```bash
-serverless create \
---template-url https://github.com/ttarnowski/serverless-aws-nodejs-typescript/tree/main \
---path myServiceName
-```
-
-where `myServiceName` should be replaced with the name of your choice.
-
-Then change directory to the newly created one:
+It is expected that the user will go to the business with this random string to claim the NFT perks
+benefits. The business will make API call through the validate-otp API and an appropriate reponse
+will be received from the backend. The API call also update the database with the random string
+status to "used".
 
 ```
-cd myServiceName
+Serverless Framework template was used to build this backend on AWS.
 ```
-
-And run:
-
-```
-npm install
-```
-
-or:
-
-```
-yarn install
-```
-
-## Licence
-
-MIT.
