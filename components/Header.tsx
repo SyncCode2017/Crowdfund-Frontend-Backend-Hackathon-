@@ -14,10 +14,10 @@ export default function Header() {
           Manager Page
         </Link>
         <Link href="/business-client" className="mr-4 p-6">
-          Clients Page
+          Business Page
         </Link>
-         <Link href="/view-nft" className="mr-4 p-6">
-          View NFT
+        <Link href="/view-nft" className="mr-4 p-6">
+          View Your NFTs
         </Link>
         <ConnectButton moralisAuth={false} />
       </div>

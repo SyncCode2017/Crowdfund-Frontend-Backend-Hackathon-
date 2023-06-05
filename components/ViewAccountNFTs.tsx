@@ -1,10 +1,9 @@
 import { contractAddresses, nftContractAddresses } from "../constants";
 import { useEffect, useState } from "react";
-import type { NextPage } from "next";
-import { Form, Input, Button, useNotification, Card } from "web3uikit";
-import { useWeb3Contract, useMoralis } from "react-moralis";
+import { useMoralis } from "react-moralis";
 import Image from "next/image";
 import axios from "axios";
+import NFTBox from "./NFTBox";
 
 interface contractAddressesInterface {
   [key: string]: { [key: string]: string[] };
@@ -28,8 +27,6 @@ export default function ViewAccountNFTs() {
   const { chainId: chainIdHex, account, isWeb3Enabled } = useMoralis();
   const chainId = chainIdHex ? parseInt(chainIdHex).toString() : "31337";
 
-  // @ts-ignore
-  // const { runContractFunction } = useWeb3Contract();
   const [accountNfts, setAccountNfts] = useState([]);
 
   console.log("chainId", chainId);
@@ -137,7 +134,7 @@ export default function ViewAccountNFTs() {
           accountNfts.length > 0 ? (
             <div>
               <div className="text-2xl font-bold items-center p-5">
-                <p>Moat NFTs in your wallet ...</p>
+                <p>Click your desired NFT to generate token ...</p>
               </div>
               <div className="flex flex-wrap">
                 {accountNfts.map((nft) => {
@@ -152,26 +149,18 @@ export default function ViewAccountNFTs() {
                   const name = nft.metadata.name;
                   //@ts-ignore
                   const description = nft.metadata.description;
-
-                  const imageSub = imageURI.substring(67);
-                  imageURI = imageURI.replace(
-                    imageSub,
-                    `.ipfs.dweb.link${imageSub}`
-                  );
+                  //@ts-ignore
+                  const nftPerkAddress = nft.contract.address;
 
                   return (
-                    <div className="flex flex-col p-2 items-center">
-                      <Card title={name} description={description}>
-                        <Image
-                          loader={() => imageURI}
-                          src={imageURI}
-                          height="250"
-                          width="250"
-                          alt={name}
-                        />
-                      </Card>
-                      <p>tokenId: {tokenId}</p>
-                    </div>
+                    <NFTBox
+                      name={name}
+                      account={account!}
+                      imageURI={imageURI}
+                      description={description}
+                      nftPerkAddress={nftPerkAddress}
+                      tokenId={tokenId.toString()}
+                    />
                   );
                 })}
               </div>
@@ -185,7 +174,7 @@ export default function ViewAccountNFTs() {
             </div>
           )
         ) : (
-          <div className="bg-orange-100 border-l-4 border-blue-500 text-blue-600 p-5">
+          <div className="bg-orange-100 border-l-4 border-blue-500 text-blue-600 p-10">
             <h1 className="font-bold text-2xl pb-4">
               Want to view your Moat Nfts?!
             </h1>

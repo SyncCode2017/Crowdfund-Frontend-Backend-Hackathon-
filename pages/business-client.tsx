@@ -8,7 +8,7 @@ export default function BusinessClient() {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Clients Page</title>
+        <title>Business Page</title>
         <meta
           name="description"
           content="Business functions to withdraw fund raised"

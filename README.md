@@ -1,22 +1,22 @@
 # Project Moat Overview
 
 Project moat is a decentralised crowd-funding platform that allow businesses
-to raise funds through crowd-funding. Contributors would be rewarded once the
-with nft of diffrent perks based on how much the contributor contributed during the
-campaign period or funding round once the target amount is met.
+to raise funds through crowd-funding. Contributors would be rewarded with nft of
+different perks based on how much the contributor contributed during the campaign
+period or funding round once the target amount is met.
 
 Contributors would be able to contribute through fiat (banking system) and through
 cryptocurrency during the funding round. The nft perks given as the reward to the
 contributors will guarantee the contributor a special discount and vip access with
 the business. The contributor would also have the option of selling the nft perk on
 the secondary market to recover his/her investment anytime. The new buyer have
-to patronise the business to claim the discounts and vip access attached to the nft
-perks. This way, the business customer base keeps growing, the business itself keeps
-growing and the values of the nft perks also increase in the secondary market.
+to continuously patronise the business to claim the discounts and vip access attached
+to the nft perks. This way, the business customer-base keeps growing, the business
+itself keeps growing and the values of the nft perks also increase in the secondary market.
 
 However, if the target amount is not met during the funding round and the campaign
 fail all the contributors or funders will be able to claim their refund or it
-may be refunded to their wallets.
+may be sent to their wallets.
 
 ### Benefits of Project Moat
 
@@ -99,39 +99,54 @@ Serverless Framework template was used to build this backend on AWS.
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+## Running this Project Locally
 
-First, run the development server:
+To run this project locally, this [crowd-fund-frontend-backend-hackathon repo](https://github.com/CROWDDIT/crowd-fund-frontend-backend-hackathon) and the [crowd-fund-hardhat-hackathon repo](https://github.com/CROWDDIT/crowd-fund-hardhat-hackathon) must be cloned.
+
+To clone these repos, run the following command on your cli;
 
 ```bash
-npm run dev
-# or
+git clone https://github.com/CROWDDIT/crowd-fund-frontend-backend-hackathon.git
+cd crowd-fund-frontend-backend-hackathon.git
+yarn
+
+git clone https://github.com/CROWDDIT/crowd-fund-hardhat-hackathon.git
+cd crowd-fund-hardhat-hackathon.git
+yarn
+```
+
+Then go into crowd-fund-hardhat-hackathon/utils/constants.ts, change the CAMPAIGN_PERIOD
+values.
+
+CAMPAIGN_PERIOD = [unix start time, unix end time, time (in seconds) required to make a decision]
+
+Convert a future time to unix time and enter it as the campaign to start. Similarly, convert a
+later time in the future to unix time and enter it as campaign end time. You can use the
+[unix timestamp convert](https://www.site24x7.com/tools/time-stamp-converter.html) to do the
+conversion.
+
+Then start the hardhat local blockchain by running this command in crowd-fund-hardhat-hackathon
+directory;
+
+```bash
+yarn hardhat node
+```
+
+While the blockchain is running in the background, using another terminal, change directory to
+crowd-fund-frontend-backend-hackathon folder. Then, run the development server:
+
+```bash
 yarn dev
-# or
-pnpm dev
+
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+You can interact with the frontend by connecting your wallet.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+#### Note:
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+1. You can only contribute to campaign when campaign is open after the start time entered above.
+2. View Your NFT page uses the Alchemy API to query and display all the users NFT perks and the
+   API is only available on the testnet and mainnet. Therefore, the paige will only show "No NFT found"
+   when on local chain.

@@ -1,7 +1,7 @@
-import { fundABizAbi, mockErc20Abi, contractAddresses } from "../constants";
+import { fundABizAbi, contractAddresses } from "../constants";
 import { useEffect, useState } from "react";
 import { ethers } from "ethers";
-import type { NextPage } from "next";
+// import type { NextPage } from "next";
 import { Button, useNotification } from "web3uikit";
 import { useWeb3Contract, useMoralis } from "react-moralis";
 
@@ -24,8 +24,8 @@ export default function BusinessWithdrawal() {
 
   const [isBusinessAddress, setIsBusinessAddress] = useState("");
   const [businessBalance, setBusinessBalance] = useState("");
-  const [allowedErc20Symbol, setAllowedErc20Symbol] = useState("");
-  const [allowedErc20TokenAddress, setAllowedErc20TokenAddress] = useState("");
+  // const [allowedErc20Symbol, setAllowedErc20Symbol] = useState("");
+  // const [allowedErc20TokenAddress, setAllowedErc20TokenAddress] = useState("");
 
   useEffect(() => {
     if (isWeb3Enabled) {
@@ -36,8 +36,8 @@ export default function BusinessWithdrawal() {
   const updateUI = async () => {
     setIsBusinessAddress((await getBusinessAccess())!);
     setBusinessBalance((await getBusinessBalance())!);
-    setAllowedErc20TokenAddress((await getAllowedTokenAddress())!);
-    setAllowedErc20Symbol((await getAllowedTokenSymbol())!);
+    // setAllowedErc20TokenAddress((await getAllowedTokenAddress())!);
+    // setAllowedErc20Symbol((await getAllowedTokenSymbol())!);
     console.log("is it the business address ", isBusinessAddress);
   };
 
@@ -107,23 +107,23 @@ export default function BusinessWithdrawal() {
     return null;
   }
 
-  async function getAllowedTokenSymbol(): Promise<string | null> {
-    const getErc20SymbolOptions = {
-      abi: mockErc20Abi,
-      contractAddress: allowedErc20TokenAddress,
-      functionName: "symbol",
-      params: {},
-    };
-    const returnedSymbol = (await runContractFunction({
-      params: getErc20SymbolOptions,
-      onError: (error) => console.log(error),
-    })) as string;
-    console.log("token symbol", returnedSymbol);
-    if (returnedSymbol) {
-      return returnedSymbol;
-    }
-    return null;
-  }
+  // async function getAllowedTokenSymbol(): Promise<string | null> {
+  //   const getErc20SymbolOptions = {
+  //     abi: mockErc20Abi,
+  //     contractAddress: allowedErc20TokenAddress,
+  //     functionName: "symbol",
+  //     params: {},
+  //   };
+  //   const returnedSymbol = (await runContractFunction({
+  //     params: getErc20SymbolOptions,
+  //     onError: (error) => console.log(error),
+  //   })) as string;
+  //   console.log("token symbol", returnedSymbol);
+  //   if (returnedSymbol) {
+  //     return returnedSymbol;
+  //   }
+  //   return null;
+  // }
 
   const getBusinessAccess = async (): Promise<string | null> => {
     const getBusinessAddressOptions = {
@@ -156,10 +156,7 @@ export default function BusinessWithdrawal() {
               className="bg-orange-100 border-l-4 border-black-500 text-black-700 p-4"
               role="alert"
             >
-              <h2>
-                Available balance is {businessBalance} {allowedErc20Symbol}{" "}
-                tokens
-              </h2>
+              <h2>Available balance is {businessBalance} ETH tokens</h2>
             </div>
             <div className="p-5">
               {Number(businessBalance) > 0 ? (

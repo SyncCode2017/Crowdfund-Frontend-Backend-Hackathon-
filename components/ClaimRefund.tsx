@@ -1,7 +1,6 @@
-import { fundABizAbi, mockErc20Abi, contractAddresses } from "../constants";
+import { fundABizAbi, contractAddresses } from "../constants";
 import { useEffect, useState } from "react";
-import type { NextPage } from "next";
-import { Form, Input, Button, useNotification } from "web3uikit";
+import { Input, Button, useNotification } from "web3uikit";
 import { useWeb3Contract, useMoralis } from "react-moralis";
 
 interface contractAddressesInterface {

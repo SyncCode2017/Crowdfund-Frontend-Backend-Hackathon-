@@ -1,8 +1,7 @@
-import { fundABizAbi, mockErc20Abi, contractAddresses } from "../constants";
+import { fundABizAbi, contractAddresses } from "../constants";
 import { useEffect, useState } from "react";
-import { BigNumber, ethers, ContractTransaction } from "ethers";
-import type { NextPage } from "next";
-import { Form, Input, Button, useNotification } from "web3uikit";
+
+import { Input, Button, useNotification } from "web3uikit";
 import { useWeb3Contract, useMoralis } from "react-moralis";
 
 interface contractAddressesInterface {
@@ -22,7 +21,7 @@ export default function ManageTheCampaign() {
     chainId in addresses ? addresses[chainId]["FundABusiness"][0] : null;
 
   const [hasManagerRole, setHasManagerRole] = useState("");
-  const [allowedErc20TokenAddress, setAllowedErc20TokenAddress] = useState("");
+  // const [allowedErc20TokenAddress, setAllowedErc20TokenAddress] = useState("");
   const [newTreasuryAddress, setNewTreasuryAddress] = useState("");
   const [reasonForEarlyClosure, setReasonForEarlyClosure] = useState("");
   const [newManager, setNewManager] = useState("");
@@ -46,18 +45,6 @@ export default function ManageTheCampaign() {
       position: "topR",
     });
     setMilestoneId("");
-  };
-
-  const handleUpdateAllowedTokenSuccess = async (tx: unknown) => {
-    // @ts-ignore
-    await tx.wait(1);
-    dispatch({
-      type: "success",
-      message: "Allowed token changed successfully",
-      title: "Allowed token changed",
-      position: "topR",
-    });
-    setAllowedErc20TokenAddress("");
   };
 
   const handleUpdateBusinessAddressSuccess = async (tx: unknown) => {
@@ -146,15 +133,6 @@ export default function ManageTheCampaign() {
         _businessAddress: newBusinessAddress,
       },
     });
-
-  const { runContractFunction: updateErc20TokenInContract } = useWeb3Contract({
-    abi: fundABizAbi,
-    contractAddress: fundABizAddress!,
-    functionName: "setAllowedToken",
-    params: {
-      _allowedErc20Token: allowedErc20TokenAddress,
-    },
-  });
 
   const { runContractFunction: addNewManagerInContract } = useWeb3Contract({
     abi: fundABizAbi,
@@ -249,7 +227,6 @@ export default function ManageTheCampaign() {
   };
 
   const isACampaignManager = async (): Promise<string | null> => {
-    // const managerRoleHex = await getManagerRoleHex();
     console.log("managerRoleHex", managerRoleHex);
     console.log("account is", account);
 
@@ -272,13 +249,6 @@ export default function ManageTheCampaign() {
       return response;
     }
     return null;
-  };
-
-  const updateTokenAddress = async () => {
-    await updateErc20TokenInContract({
-      onSuccess: (tx) => handleUpdateAllowedTokenSuccess(tx),
-      onError: (error) => console.log(error),
-    });
   };
 
   const closeCampaign = async () => {
@@ -337,32 +307,6 @@ export default function ManageTheCampaign() {
         <div>
           {fundABizAddress ? (
             <div className="flex flex-col py-10">
-              <div className="flex flex-row m-5">
-                <div className="mr-4">
-                  <Input
-                    label="Update allowed Erc-20 token address"
-                    name="New Erc-20 token address"
-                    onChange={(event) => {
-                      setAllowedErc20TokenAddress(event.target.value);
-                    }}
-                    type="text"
-                  />
-                </div>
-                <div>
-                  {allowedErc20TokenAddress ? (
-                    <Button
-                      id="update-allowedToken"
-                      onClick={updateTokenAddress}
-                      text="Update Allowed Token"
-                      theme="colored"
-                      color="blue"
-                      type="button"
-                    />
-                  ) : (
-                    <p></p>
-                  )}
-                </div>
-              </div>
               <div className="flex flex-row m-5">
                 <div className="mr-4">
                   <Input
@@ -565,38 +509,6 @@ export default function ManageTheCampaign() {
                   )}
                 </div>
               </div>
-              {/* <Form
-            onSubmit={}
-            buttonConfig={{
-              isLoading: false,
-              type: "submit",
-              theme: "primary",
-              text: "Contribute to Campaign",
-            }}
-            data={[
-              // {
-              //   inputWidth: "50%",
-              //   name: "NFT Address",
-              //   type: "text",
-              //   value: "",
-              //   key: "nftAddress",
-              // },
-              {
-                name: "Funding Tier",
-                type: "number",
-                value: "",
-                key: "tier",
-              },
-              {
-                name: "Quantity",
-                type: "number",
-                value: "",
-                key: "quantity",
-              },
-            ]}
-            title="Contribute to Business-A Campaign"
-            id="Main Form"
-          /> */}
             </div>
           ) : (
             <div
