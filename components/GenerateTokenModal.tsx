@@ -1,8 +1,5 @@
 import { Modal, useNotification, Input, Illustration, Button } from "web3uikit";
 import { useState } from "react";
-// import { useWeb3Contract } from "react-moralis";
-// import { ethers } from "ethers";
-// import Image from "next/image";
 import { generateRandomString } from "@/utils/helpful-functions";
 
 export interface GenerateTokenModalProps {
