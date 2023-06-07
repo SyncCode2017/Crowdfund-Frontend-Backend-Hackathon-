@@ -114,7 +114,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 To run this project locally, this [crowd-fund-frontend-backend-hackathon repo](https://github.com/CROWDDIT/crowd-fund-frontend-backend-hackathon) and the [crowd-fund-hardhat-hackathon repo](https://github.com/CROWDDIT/crowd-fund-hardhat-hackathon) must be cloned.
 
-To clone these repos, run the following command on your cli;
+1. To clone these repos, run the following command on your cli;
 
 ```bash
 git clone https://github.com/CROWDDIT/crowd-fund-frontend-backend-hackathon.git
@@ -126,8 +126,8 @@ cd crowd-fund-hardhat-hackathon.git
 yarn
 ```
 
-Then go into crowd-fund-hardhat-hackathon/utils/constants.ts, change the CAMPAIGN_PERIOD
-values.
+2. Then go into crowd-fund-hardhat-hackathon/utils/constants.ts, change the CAMPAIGN_PERIOD
+   values.
 
 CAMPAIGN_PERIOD = [unix start time, unix end time, time (in seconds) required to make a decision]
 
@@ -136,22 +136,26 @@ later time in the future to unix time and enter it as campaign end time. You can
 [unix timestamp convert](https://www.site24x7.com/tools/time-stamp-converter.html) to do the
 conversion.
 
-Then start the hardhat local blockchain by running this command in crowd-fund-hardhat-hackathon
-directory;
+3. Ensure the frontEndContractsFile parameter in the crowd-fund-hardhat/utils/constants file is rooted to crowd-fund-frontend-backend-hackathon/constants/fundABizAddress.json and crowd-fund-frontend-backend-hackathon/constants/nftPerksAddresses.json location in the crowd-fund-frontend-backend-hackathon repo. Also, ensure frontEndAbiLocation parameter in the crowd-fund-hardhat/utils/constants file is rooted to crowd-fund-frontend-backend-hackathon/constants/ folder in the crowd-fund-frontend-backend-hackathon repo.
+
+4. Finally, set the SET_NFT_PERKS and UPDATE_FRONT_END paratmeters in the .env file of crowd-fund-hardhat repo to true as shown in the .env.example file.
+
+5. Then start the hardhat local blockchain by running this command in crowd-fund-hardhat-hackathon
+   directory;
 
 ```bash
 yarn hardhat node
 ```
 
-While the blockchain is running in the background, using another terminal, change directory to
-crowd-fund-frontend-backend-hackathon folder. Then, run the development server:
+6. While the blockchain is running in the background, using another terminal, change directory to
+   crowd-fund-frontend-backend-hackathon folder. Then, run the development server:
 
 ```bash
 yarn dev
 
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+7. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 You can interact with the frontend by connecting your wallet.
 
