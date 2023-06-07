@@ -155,6 +155,10 @@ yarn dev
 
 ```
 
+Also, get the API key from Alchemy to view your Moat nft on the testnet or mainnet. Enter this
+API key into the crowd-fund-frontend-backend-hackathon/.env file to set NEXT_PUBLIC_ALCHEMY_MUMBAI_API_KEY
+parameter as shown in the .env.example.
+
 7. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 You can interact with the frontend by connecting your wallet.
