@@ -1,6 +1,6 @@
 # Project Moat Overview
 
-Project moat is a decentralised crowd-funding platform that allow businesses
+Project moat is a decentralised crowd-funding platform that allows businesses
 to raise funds through crowd-funding. Contributors would be rewarded with nft of
 different perks based on how much the contributor contributed during the campaign
 period or funding round once the target amount is met.
@@ -15,7 +15,7 @@ to the nft perks. This way, the business customer-base keeps growing, the busine
 itself keeps growing and the values of the nft perks also increase in the secondary market.
 
 However, if the target amount is not met during the funding round and the campaign
-fail all the contributors or funders will be able to claim their refund or it
+fails all the contributors or funders will be able to claim their refund or it
 may be sent to their wallets.
 
 ### Benefits of Project Moat
@@ -25,14 +25,14 @@ may be sent to their wallets.
    in the business. This gives sufficient time to the startup (business) to grow and expand
    carefully.
 
-2. The contributors also become customer to the business as they can only use their NFT perks
-   to claim discounts and vip access with the business.
+2. The contributors also become customers to the business as they can only use their NFT perks
+   to claim discounts and VIP access with the business.
 
-3. Anytime these NFT perks are sold in the secondary markets, the business gets royalties and gain
-   a new customer. Royalties from the secondary markets gives the business additional cash flow.
+3. Anytime these NFT perks are sold in the secondary markets, the business gets royalties and gains
+   a new customer. Royalties from the secondary markets give the business additional cash flow.
 
 4. Contributors are able to see how and when funds-raised are released to the business according
-   to the milestones define in the contract as the approval and release of fund will be done on chain.
+   to the milestones defined in the contract as the approval and release of funds will be done on-chain.
    This guarantees transparency.
 
 5. Since fiat contributions will be accepted, many more new users will be brought to the web3 space.
@@ -40,14 +40,22 @@ may be sent to their wallets.
 Project Moat will generate cash flow by taking fractions of the fund raised and the NFT royalties
 in the secondary market. Project Moat team plan to develop NFT marketplace as secondary market for
 the NFTs and hopes to eventually become a DAO. As a DAO, the project will be community-owned and the team
-can continue to effectively screen every business that comes to raise fund on the platform.
+can continue to effectively screen every business that comes to raise funds on the platform.
+
+## Background and Challenges We ran into
+
+The Project Moat team first conceived the idea of a decentralised crowd-funding platform a few weeksbefore the Chainlink Hackathon started. Then we started writing the smart contracts.The FundAbusiness contract was initially developed to accept only stable coins.
+
+However, a few days into the implementation, the USDC stable coin lost its peg. The first US bankcollapse this year happened. Then a few more banks also went under. Then, we realised that keepingstable coins on the contract for a long period of time is risky.
+
+While we explore other options, Chainlink Hackathon started. We wanted to participate in the hackathon so we thought of ways to upgrade the project we are building. We decided to accept only ETH or native coins of the host blockchain. We used Chainlink DataFeed to fetch the real-time price of ETH and calculate the equivalent amount of every contribution. Then we proceeded to building the frontend and backend (including APIs)of the project.
 
 ## Implementation
 
 The Figure 1 below shows the overview implementation of the project. Two smart contracts were written; the
 FundABusiness.sol and the NFTperks.sol. The FundABusiness.sol contract manages the crowd-funding campaign.
-It has the minter role of the NFTperks.sol contract and it would be able to mint NFTs to funders or
-contributors once the campaign is declared succesful and the NFT contracts are set.
+It has the minter-role of the NFTperks.sol contract and it would be able to mint NFTs to funders or
+contributors once the campaign is declared successful and the NFT contracts are set.
 
 ![alt text](moat-overview.jpg)
 
@@ -90,18 +98,18 @@ The figure above shows the overview of the architecture of the two APIs.
 
 On the View your NFT page on the frontend, the contributors will be able to generate a token
 or random string with their NFT perks. With this random string, a contributor (user) can go to the
-business and claim their perks. The business just need to call the validate-otp API.
+business and claim their perks. The business just needs to call the validate-otp API.
 
-Here is how it works; once the user connect his/her wallet to the view your NFT page, the Alchemy
+Here is how it works; once the user connects his/her wallet to the View Your NFT page, the Alchemy
 NFT API is called to load and display all the NFT perks in the user wallet. With any of the NFT,
 the user can generate the random string by clicking the NFT. In the background, the clicking
-action calls the generate-token API and it respond with the random string. The NFT data and the
-corrensponding random string are stored in the AWS RDS database for the eventual validation API
+action calls the generate-token API and it responds with the random string. The NFT data and the
+corresponding random string are stored in the AWS RDS database for the eventual validation API
 call.
 
 It is expected that the user will go to the business with this random string to claim the NFT perks
-benefits. The business will make API call through the validate-otp API and an appropriate reponse
-will be received from the backend. The API call also update the database with the random string
+benefits. The business will make API call through the validate-otp API and an appropriate response
+will be received from the backend. The API call also updates the database with the random string
 status to "used".
 
 ```
@@ -138,7 +146,7 @@ conversion.
 
 3. Ensure the frontEndContractsFile parameter in the crowd-fund-hardhat/utils/constants file is rooted to crowd-fund-frontend-backend-hackathon/constants/fundABizAddress.json and crowd-fund-frontend-backend-hackathon/constants/nftPerksAddresses.json location in the crowd-fund-frontend-backend-hackathon repo. Also, ensure frontEndAbiLocation parameter in the crowd-fund-hardhat/utils/constants file is rooted to crowd-fund-frontend-backend-hackathon/constants/ folder in the crowd-fund-frontend-backend-hackathon repo.
 
-4. Finally, set the SET_NFT_PERKS and UPDATE_FRONT_END paratmeters in the .env file of crowd-fund-hardhat repo to true as shown in the .env.example file.
+4. Finally, set the SET_NFT_PERKS and UPDATE_FRONT_END parameters in the .env file of crowd-fund-hardhat repo to true as shown in the .env.example file.
 
 5. Then start the hardhat local blockchain by running this command in crowd-fund-hardhat-hackathon
    directory;
@@ -165,7 +173,7 @@ You can interact with the frontend by connecting your wallet.
 
 #### Note:
 
-1. You can only contribute to campaign when campaign is open after the start time entered above.
+1. You can only contribute to the campaign when the campaign is open after the start-time entered above has passed.
 2. View Your NFT page uses the Alchemy API to query and display all the users NFT perks and the
    API is only available on the testnet and mainnet. Therefore, the paige will only show "No NFT found"
-   when on local chain.
+   when on a local chain.
