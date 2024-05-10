@@ -16,7 +16,7 @@ itself keeps growing and the values of the nft perks also increase in the second
 
 However, if the target amount is not met during the funding round and the campaign
 fails all the contributors or funders will be able to claim their refund or it
-may be sent to their wallets.
+may be sent to their wallets. 
 
 ### Benefits of Project Moat
 
@@ -122,16 +122,16 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Running this Project Locally
 
-To run this project locally, this [crowd-fund-frontend-backend-hackathon repo](https://github.com/CROWDDIT/crowd-fund-frontend-backend-hackathon) and the [crowd-fund-hardhat-hackathon repo](https://github.com/CROWDDIT/crowd-fund-hardhat-hackathon) must be cloned.
+To run this project locally, this [crowd-fund-frontend-backend-hackathon repo](https://github.com/SyncCode2017/Crowdfund-Frontend-Backend-Hackathon-.git) and the [crowd-fund-hardhat-hackathon repo](https://github.com/SyncCode2017/Crowdfund-Hardhat-Hackathon.git) must be cloned.
 
 1. To clone these repos, run the following command on your cli;
 
 ```bash
-git clone https://github.com/CROWDDIT/crowd-fund-frontend-backend-hackathon.git
+git clone https://github.com/SyncCode2017/Crowdfund-Frontend-Backend-Hackathon-.git
 cd crowd-fund-frontend-backend-hackathon.git
 yarn
 
-git clone https://github.com/CROWDDIT/crowd-fund-hardhat-hackathon.git
+git clone https://github.com/SyncCode2017/Crowdfund-Hardhat-Hackathon.git
 cd crowd-fund-hardhat-hackathon.git
 yarn
 ```

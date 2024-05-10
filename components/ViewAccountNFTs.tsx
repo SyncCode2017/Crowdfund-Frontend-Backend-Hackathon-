@@ -47,20 +47,20 @@ export default function ViewAccountNFTs() {
       nftPerk1 =
         nftPerk1!.length > 0
           ? nftPerk1!.map((x) => {
-              return x.toLowerCase();
-            })
+            return x.toLowerCase();
+          })
           : null;
       nftPerk2 =
         nftPerk2!.length > 0
           ? nftPerk2!.map((x) => {
-              return x.toLowerCase();
-            })
+            return x.toLowerCase();
+          })
           : null;
       nftPerk3 =
         nftPerk3!.length > 0
           ? nftPerk3!.map((x) => {
-              return x.toLowerCase();
-            })
+            return x.toLowerCase();
+          })
           : null;
 
       const moatNftAddrs = [...nftPerk1!, ...nftPerk2!, ...nftPerk3!];
@@ -102,7 +102,7 @@ export default function ViewAccountNFTs() {
 
   useEffect(() => {
     if (isWeb3Enabled) {
-      updateUI();
+      updateUI()
     }
   }, [chainId, account, isWeb3Enabled]);
 
@@ -125,7 +125,7 @@ export default function ViewAccountNFTs() {
         console.log("error", error);
       }
       return null;
-    };
+    }
 
   return (
     <div>

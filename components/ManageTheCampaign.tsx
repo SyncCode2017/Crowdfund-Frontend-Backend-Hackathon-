@@ -104,7 +104,7 @@ export default function ManageTheCampaign() {
       position: "topR",
     });
     setNewManager("");
-  };
+  }
 
   const { runContractFunction: approveMilestoneInContract } = useWeb3Contract({
     abi: fundABizAbi,

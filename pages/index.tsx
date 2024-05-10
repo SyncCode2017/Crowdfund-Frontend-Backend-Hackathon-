@@ -1,4 +1,4 @@
-// import ManualHeader from "@/components/ManualHeader";
+
 import Header from "../components/Header";
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
